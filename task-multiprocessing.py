@@ -1,6 +1,7 @@
 import os
 import multiprocessing
 import time
+from pathlib import Path
 
 def search_in_files_process(file_list, keywords, queue):
     result = {}
@@ -12,7 +13,7 @@ def search_in_files_process(file_list, keywords, queue):
                     if word in content:
                         if word not in result:
                             result[word] = []
-                        result[word].append(file_path)
+                        result[word].append(str(file_path))
         except Exception as e:
             print(f"Помилка при обробці файлу {file_path}: {e}")
     queue.put(result)
@@ -47,11 +48,12 @@ def multiprocessing_search(files, keywords):
     return total_results
 
 if __name__ == "__main__":
-    import glob
+    # Шлях до каталогу з файлами
+    directory = Path(r"C:\Users\WORK\Desktop\GoIT\Repository\Computer_Systems\goit-cs-hw-04\text_files")
 
     # Список файлів для обробки
-    files = glob.glob('path/to/text/files/*.txt')
-    keywords = ['слово1', 'слово2', 'слово3']
+    files = list(directory.glob('*.txt'))
+    keywords = ['черги', 'процес', 'канал']
 
     start_time = time.time()
     results = multiprocessing_search(files, keywords)

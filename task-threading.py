@@ -1,6 +1,7 @@
 import os
 import threading
 import time
+from pathlib import Path
 
 def search_in_files(file_list, keywords, result_dict, lock):
     for file_path in file_list:
@@ -38,11 +39,12 @@ def threaded_search(files, keywords):
     return result_dict
 
 if __name__ == "__main__":
-    import glob
+    # Шлях до каталогу з файлами
+    directory = Path(r"C:\Users\WORK\Desktop\GoIT\Repository\Computer_Systems\goit-cs-hw-04\text_files")
 
     # Список файлів для обробки
-    files = glob.glob('path/to/text/files/*.txt')
-    keywords = ['слово1', 'слово2', 'слово3']
+    files = list(directory.glob('*.txt'))
+    keywords = ['черги', 'процес', 'канал']
 
     start_time = time.time()
     results = threaded_search(files, keywords)
